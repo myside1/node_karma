@@ -12,6 +12,7 @@ RUN npm install -g protractor karma jasmine-core karma-jasmine karma-webpack web
     rm google-chrome-stable_current_amd64.deb && \
     mkdir /protractor
 ADD protractor.sh /protractor.sh
+RUN chomd 777 /protractor.sh
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 WORKDIR /protractor
 ENTRYPOINT ["/protractor.sh"]
