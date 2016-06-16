@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-MAINTAINER Nicola Molinari <emmenko@gmail.com>
+MAINTAINER 357003671@qq.com
 
 RUN apt-get update; \
     apt-get install -y git curl; \
