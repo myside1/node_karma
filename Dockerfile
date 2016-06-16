@@ -1,12 +1,19 @@
-FROM node:slim
-MAINTAINER silecne.tang@daocloud.io
-WORKDIR /tmp
-RUN npm install -g karma jasmine-core karma-jasmine karma-webpack webpack && \
-    apt-get update && \
-    apt-get install -y xvfb wget openjdk-7-jre && \
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    dpkg --unpack google-chrome-stable_current_amd64.deb && \
-    apt-get install -f -y && \
-    apt-get clean && \
-    rm google-chrome-stable_current_amd64.deb && \
-ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
+FROM ubuntu:trusty
+
+MAINTAINER Nicola Molinari <emmenko@gmail.com>
+
+RUN apt-get update; \
+    apt-get install -y git curl; \
+    curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -; \
+    curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
+    sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'; \
+    apt-get update && apt-get install -y google-chrome-stable nodejs Xvfb; \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD xvfb.sh /etc/init.d/xvfb
+ADD entrypoint.sh /entrypoint.sh
+
+ENV DISPLAY :99.0
+ENV CHROME_BIN /usr/bin/google-chrome
+
+ENTRYPOINT ["/entrypoint.sh"]
