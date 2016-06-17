@@ -9,6 +9,7 @@ RUN apt-get update; \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'; \
     apt-get update && apt-get install -y google-chrome-stable nodejs Xvfb; \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get -y install firefox firefox-locale-fr
 ADD xvfb.sh /etc/init.d/xvfb
 RUN chmod 777 /etc/init.d/xvfb
 ADD entrypoint.sh /entrypoint.sh
